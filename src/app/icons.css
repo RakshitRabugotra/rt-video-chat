@@ -1,0 +1,10 @@
+.icon-hang::before {
+  content: "📞";
+}
+
+.icon-mute::before {
+  content: "🔇";
+}
+.icon-hide::before {
+  content: "📺";
+}
