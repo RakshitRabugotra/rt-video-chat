@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { cn } from "@/lib/utils";
+// Fonts
 import { Geist, Geist_Mono } from "next/font/google";
 // For authentication
 import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
 
 // Providers
 import ThemeProvider from "@/providers/ThemeProvider";
 import SocketProvider from "@/providers/SocketProvider";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +41,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={cn(
+              geistSans.variable,
+              geistMono.variable,
+              "antialiased relative"
+            )}
             style={{
               height: "calc(100vh - var(--nav-height) - 8px)",
             }}

@@ -1,11 +1,12 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import UserAvatar from "./UserAvatar";
+// Custom Hooks
 import { useSocket } from "@/hooks/use-socket";
-import { Skeleton } from "./ui/skeleton";
 
 export default function OnlineUserList() {
-  const { isConnected, onlineUsers } = useSocket();
+  const { isConnected, onlineUsers, handleCall } = useSocket();
 
   return (
     <section className="inline-flex-center flex-1 gap-6">
@@ -17,15 +18,7 @@ export default function OnlineUserList() {
         <>
           {!!onlineUsers
             ? onlineUsers.map((socketUser) => (
-                <Avatar key={socketUser.userId} className="size-44 no-select">
-                  <AvatarImage
-                    src={socketUser.profile.imageUrl}
-                    className="no-select"
-                  />
-                  <AvatarFallback className="no-select">
-                    {socketUser.profile.username}
-                  </AvatarFallback>
-                </Avatar>
+                <UserAvatar {...socketUser} onTap={() => handleCall(socketUser)} key={socketUser.userId} />
               ))
             : Array.from({ length: 3 }).map((_, index) => (
                 <Skeleton className="size-44 rounded-full no-select" />

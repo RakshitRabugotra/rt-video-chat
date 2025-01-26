@@ -1,10 +1,12 @@
-import OnlineUserList from "@/components/OnlineUserList";
+import CallNotification from "@/components/CallNotification";
+import OnlineUserList from "@/components/user/OnlineUserList";
 import VideoBox from "@/components/VideoBox";
 
 export default function Home() {
   return (
     <div className="inline-flex h-full w-full">
       <OnlineUserList />
+      <CallNotification/>
     </div>
   );
 }

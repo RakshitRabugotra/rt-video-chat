@@ -1,18 +1,30 @@
-import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
+import { createServer } from "node:http";
 
+// Custom event handlers
+import onCall from "./src-server/events/on-call.js";
+
+// Information about the environment
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
 const port = 3000;
-// when using middleware `hostname` and `port` must be provided below
+
+/**
+ * Create a custom server for next.js
+ * - when using middleware `hostname` and `port` must be provided below
+ */
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
 
-app.prepare().then(() => {
-  const httpServer = createServer(handler);
+// Declare the io server, to be used in different modules
+export let io;
 
-  const io = new Server(httpServer);
+app.prepare().then(() => {
+  // Create the http server
+  const httpServer = createServer(handler);
+  // The websocket server
+  io = new Server(httpServer);
 
   // All the online users
   let onlineUsers = [];
@@ -33,7 +45,7 @@ app.prepare().then(() => {
         });
       }
       // Show the connect users
-      console.log("online-users: ". onlineUsers);
+      console.log("online-users: ".onlineUsers);
       // Send active users
       io.emit("getUsers", onlineUsers);
     });
@@ -46,6 +58,9 @@ app.prepare().then(() => {
       // Send active users
       io.emit("getUsers", onlineUsers);
     });
+
+    // Call Event
+    socket.on("call", onCall);
   });
 
   httpServer
