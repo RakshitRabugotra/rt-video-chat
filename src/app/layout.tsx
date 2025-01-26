@@ -3,8 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 // For authentication
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { ThemeProvider } from "@/providers/ThemeProvider";
+
+// Providers
+import ThemeProvider from "@/providers/ThemeProvider";
+import SocketProvider from "@/providers/SocketProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,7 +44,7 @@ export default function RootLayout({
               height: "calc(100vh - var(--nav-height) - 8px)",
             }}
           >
-            {children}
+            <SocketProvider>{children}</SocketProvider>
           </body>
         </ThemeProvider>
       </html>
