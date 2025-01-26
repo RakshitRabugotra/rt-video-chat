@@ -6,6 +6,7 @@ import useMedia from "@/hooks/use-media";
 // Styles
 import ChatBox from "@/components/ChatBox";
 import { twMerge } from "tailwind-merge";
+import { Button } from "./ui/button";
 
 export interface VideoBoxProps {
   className?: string;
@@ -14,10 +15,10 @@ export interface VideoBoxProps {
     videoContainer?: string;
     video?: string;
     controls?: {
-      base?: string,
-      button?: string
-      buttonText?: string
-    }
+      base?: string;
+      button?: string;
+      buttonText?: string;
+    };
   };
 }
 
@@ -59,7 +60,13 @@ export default function VideoBox({ className, classNames }: VideoBoxProps) {
   }, [isStreaming]);
 
   return (
-    <div className={twMerge("flex-center gap-8 w-full h-full", classNames?.base, className)}>
+    <div
+      className={twMerge(
+        "flex-center gap-8 w-full h-full",
+        classNames?.base,
+        className
+      )}
+    >
       {!isStreaming && (
         <>
           <h2>Welcome! Let's turn on the camera?</h2>
@@ -67,7 +74,13 @@ export default function VideoBox({ className, classNames }: VideoBoxProps) {
         </>
       )}
 
-      <div className={twMerge("p-4", classNames?.videoContainer, isStreaming ? "block flex-center" : "hidden")}>
+      <div
+        className={twMerge(
+          "p-4",
+          classNames?.videoContainer,
+          isStreaming ? "block flex-center" : "hidden"
+        )}
+      >
         <video
           autoPlay
           playsInline
@@ -87,21 +100,59 @@ export default function VideoBox({ className, classNames }: VideoBoxProps) {
               classNames?.controls?.base
             )}
           >
-            <button
-              className={twMerge("relative icon-mute border-2 border-solid", isAudio ? "border-green-400" : "border-0", classNames?.controls?.button)}
+            <Button
+              size="sm"
+              className={twMerge(
+                "relative icon-mute border-2 border-solid",
+                isAudio ? "border-green-400" : "border-0",
+                classNames?.controls?.button
+              )}
               onClick={toggleAudio}
             >
-              <p className={twMerge("absolute inset-0 top-auto text-center text-xs color-[#d1d1d1] translate-y-[200%]", classNames?.controls?.buttonText)}>Mute</p>
-            </button>
-            <button
-              className={twMerge("relative icon-hide border-2 border-solid", isVideo ? "border-green-400" : "border-0", classNames?.controls?.button)}
+              <p
+                className={twMerge(
+                  "absolute inset-0 top-auto text-center text-xs color-[#d1d1d1] translate-y-[200%]",
+                  classNames?.controls?.buttonText
+                )}
+              >
+                Mute
+              </p>
+            </Button>
+            <Button
+              size="sm"
+              className={twMerge(
+                "relative icon-hide border-2 border-solid",
+                isVideo ? "border-green-400" : "border-0",
+                classNames?.controls?.button
+              )}
               onClick={toggleVideo}
             >
-              <p className={twMerge("absolute inset-0 top-auto text-center text-xs color-[#d1d1d1] translate-y-[200%]", classNames?.controls?.buttonText)}>Hide</p>
-            </button>
-            <button className={twMerge("relative icon-hang", classNames?.controls?.button)} onClick={stopStream}>
-              <p className={twMerge("absolute inset-0 top-auto text-center text-xs color-[#d1d1d1] translate-y-[200%]", classNames?.controls?.buttonText)}>Hang Up</p>
-            </button>
+              <p
+                className={twMerge(
+                  "absolute inset-0 top-auto text-center text-xs color-[#d1d1d1] translate-y-[200%]",
+                  classNames?.controls?.buttonText
+                )}
+              >
+                Hide
+              </p>
+            </Button>
+            <Button
+              size="sm"
+              className={twMerge(
+                "relative icon-hang",
+                classNames?.controls?.button
+              )}
+              onClick={stopStream}
+            >
+              <p
+                className={twMerge(
+                  "absolute inset-0 top-auto text-center text-xs color-[#d1d1d1] translate-y-[200%]",
+                  classNames?.controls?.buttonText
+                )}
+              >
+                Hang Up
+              </p>
+            </Button>
           </div>
         )}
 

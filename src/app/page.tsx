@@ -3,7 +3,7 @@ import VideoBox from "@/components/VideoBox";
 
 export default function Home() {
   return (
-    <div className="inline-flex h-screen w-full">
+    <div className="inline-flex h-full w-full">
       <div className='view w-[65%]'>
       </div>
       <aside className="video-view w-[35%] flex flex-col">
