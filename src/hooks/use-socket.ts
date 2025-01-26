@@ -1,3 +1,5 @@
+'use client'
+
 import { SocketContext } from "@/context/SocketContext";
 import { useContext } from "react"
 

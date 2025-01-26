@@ -5,9 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -64,7 +61,6 @@
   }
 }
 
-
 @layer base {
   * {
     @apply border-border;
@@ -120,7 +116,6 @@ button:focus-visible {
   outline: none;
 }
 
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -134,12 +129,21 @@ button:focus-visible {
   }
 }
 
-
 @layer utilities {
   .flex-center {
     @apply flex flex-col justify-center items-center;
   }
   .inline-flex-center {
     @apply inline-flex justify-center items-center;
+  }
+
+  .no-select {
+    user-select: none;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
   }
 }

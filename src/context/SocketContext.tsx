@@ -5,7 +5,17 @@ import { useUser } from "@clerk/nextjs";
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-export const SocketContext = createContext<any>({});
+export interface SocketConnection {
+  socket: Socket | null,
+  onlineUsers: SocketUser[] | null,
+  isConnected: boolean,
+}
+
+export const SocketContext = createContext<SocketConnection>({
+  isConnected: false,
+  socket: null,
+  onlineUsers: null
+});
 
 export const SocketContextProvider = ({ children }: PropsWithChildren) => {
   const { user } = useUser();
@@ -67,6 +77,7 @@ export const SocketContextProvider = ({ children }: PropsWithChildren) => {
     <SocketContext.Provider
       value={{
         socket,
+        onlineUsers,
         isConnected,
       }}
     >
