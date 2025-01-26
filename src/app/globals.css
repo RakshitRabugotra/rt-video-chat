@@ -139,4 +139,7 @@ button:focus-visible {
   .flex-center {
     @apply flex flex-col justify-center items-center;
   }
+  .inline-flex-center {
+    @apply inline-flex justify-center items-center;
+  }
 }
