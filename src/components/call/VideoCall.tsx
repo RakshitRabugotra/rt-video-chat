@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
-// Custom Hooks
-import useMedia from "@/hooks/use-media";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 // Styles
-import ChatBox from "@/components/ChatBox";
+import { Button } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
-import { Button } from "./ui/button";
 
-export interface VideoBoxProps {
+export interface VideoCallStyleProps {
   className?: string;
   classNames?: {
     base?: string;
@@ -22,35 +19,51 @@ export interface VideoBoxProps {
   };
 }
 
-export default function VideoBox({ className, classNames }: VideoBoxProps) {
-  const {
-    isStreaming,
-    stream,
-    constraints,
-    isVideo,
-    isAudio,
-    startStream,
-    stopStream,
-    toggleAudio,
-    toggleVideo,
-  } = useMedia();
+export interface VideoCallProps extends VideoCallStyleProps {
+  stream: MediaStream | null
+  constraints: MediaStreamConstraints
+  isLocalStream: boolean;
+  isOnCall: boolean;
+  startStream: (faceMode?: string) => Promise<void>
+}
+
+export default function VideoCall({ stream, constraints, startStream, className, classNames }: VideoCallProps) {
 
   const webcamVideo = useRef<HTMLVideoElement | null>(null);
 
+  
+  // To keep track if we're streaming
+  const isStreaming = useMemo(() => stream !== null, [stream])
+  
+  // The constraints on the video of the stream
   const { width: videoWidth, height: videoHeight } = useMemo(
     () => constraints.video as MediaTrackConstraints,
     [constraints]
   );
 
-  const handleStartStream = () => {
-    startStream()
-      .then(() => {
-        console.log("Start started successfully");
-      })
-      .catch(() => {
-        console.error("Error while starting the stream");
-      });
-  };
+  // To keep the state of the stream audio and video
+  const [isVideo, setVideo] = useState(Boolean(constraints.video)); 
+  const [isAudio, setAudio] = useState(Boolean(constraints.audio)); 
+
+  // To toggle the audio/video
+  const toggleAudio = useCallback(() => {
+    if(stream) {
+      stream.getAudioTracks()[0].enabled = !isAudio;
+      setAudio(prev => !prev);
+    }
+  }, [stream, isAudio])
+
+  const toggleVideo = useCallback(() => {
+    if(stream) {
+      stream.getVideoTracks()[0].enabled = !isVideo;
+      setVideo(prev => !prev);
+    }
+  }, [stream, isAudio])
+
+  // To stop the video stream/call
+  const stopStream = () => {
+
+  }
 
   useEffect(() => {
     if (stream && webcamVideo.current) {
@@ -70,7 +83,7 @@ export default function VideoBox({ className, classNames }: VideoBoxProps) {
       {!isStreaming && (
         <>
           <h2>Welcome! Let's turn on the camera?</h2>
-          <button onClick={handleStartStream}>Let's gooo</button>
+          <button onClick={() => startStream()}>Let's gooo</button>
         </>
       )}
 

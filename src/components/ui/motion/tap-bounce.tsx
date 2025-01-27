@@ -4,16 +4,21 @@ import { TapEventHandler } from "@/types";
 import { PropsWithChildren } from "react";
 
 export interface TapBounceProps extends PropsWithChildren {
+  disableAnimation?: boolean;
   className?: string;
-  onTap?: TapEventHandler
+  onTap?: TapEventHandler;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export default function TapBounce({ children, ...props }: TapBounceProps) {
+export default function TapBounce({
+  disableAnimation = false,
+  children,
+  ...props
+}: TapBounceProps) {
   return (
     <motion.div
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.8 }}
+      whileHover={!disableAnimation ? { scale: 1.1 } : undefined}
+      whileTap={!disableAnimation ? { scale: 0.8 } : undefined}
       {...props}
     >
       {children}
