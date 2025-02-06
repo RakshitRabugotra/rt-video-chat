@@ -21,7 +21,7 @@ export default function VideoCallView() {
   if(!localStream && !peer) return;
 
   return (
-    <aside className="video-view w-[35%] flex flex-col">
+    <aside className="video-view max-w-[35%] flex-1 flex flex-col">
       <div className="video-view user border-x-2 border-solid border-red-600 flex-1">
         {/* The video for the other person */}
         {peer && peer.stream && (

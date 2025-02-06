@@ -9,9 +9,8 @@ export default function Home() {
         <OnlineUserList />
         <CallNotification />
       </div>
-      <aside className="video-view w-[35%] flex flex-col">
-        <VideoCallView />
-      </aside>
+      
+      <VideoCallView />
     </main>
   );
 }
