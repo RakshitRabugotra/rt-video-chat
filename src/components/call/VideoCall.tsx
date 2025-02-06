@@ -129,14 +129,14 @@ const VideoControls = ({
   // To toggle the audio/video
   const toggleAudio = useCallback(() => {
     if (stream) {
-      stream.getAudioTracks()[0].enabled = !isAudio;
+      stream.getAudioTracks().forEach(track => track && (track.enabled = !isAudio));
       setAudio((prev) => !prev);
     }
   }, [stream, isAudio]);
 
   const toggleVideo = useCallback(() => {
     if (stream) {
-      stream.getVideoTracks()[0].enabled = !isVideo;
+      stream.getVideoTracks().forEach(track => track && (track.enabled = !isVideo));
       setVideo((prev) => !prev);
     }
   }, [stream, isAudio]);

@@ -254,7 +254,8 @@ export const SocketContextProvider = ({ children }: PropsWithChildren) => {
       const stream = await getMediaStream();
       if (!stream) {
         console.error("Couldn't get stream in handleJoinCall");
-        return;
+        // Simply hangup
+        return handleHangupCall({ ongoingCall, isEmitHangup: true })
       }
       // Create a peer for the caller
       const newPeer = createPeer(stream, true);

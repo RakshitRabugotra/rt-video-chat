@@ -10,7 +10,7 @@ import onHangup from "./src-server/events/on-hangup.js";
 // Information about the environment
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 /**
  * Create a custom server for next.js
