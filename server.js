@@ -4,6 +4,7 @@ import { createServer } from "node:http";
 
 // Custom event handlers
 import onCall from "./src-server/events/on-call.js";
+import onWebrtcSignal from "./src-server/events/on-webrtcsignal.js";
 
 // Information about the environment
 const dev = process.env.NODE_ENV !== "production";
@@ -59,8 +60,9 @@ app.prepare().then(() => {
       io.emit("getUsers", onlineUsers);
     });
 
-    // Call Event
+    // Call Events
     socket.on("call", onCall);
+    socket.on("webrtcSignal", onWebrtcSignal);
   });
 
   httpServer

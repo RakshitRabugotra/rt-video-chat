@@ -1,4 +1,5 @@
 import { User } from "@clerk/nextjs/server";
+import Peer from "simple-peer";
 
 export interface SocketUser {
   userId: string;
@@ -15,6 +16,12 @@ export interface Participants {
   caller: SocketUser;
   receiver: SocketUser;
 }
+
+export interface PeerData {
+  peerConnection: Peer.Instance
+  stream?: MediaStream
+  participant: SocketUser
+} 
 
 /**
  * Other component types
