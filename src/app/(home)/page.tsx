@@ -5,7 +5,7 @@ import OnlineUserList from "@/components/user/OnlineUserList";
 export default function Home() {
   return (
     <main className="inline-flex h-full w-full">
-      <div className="view w-[65%] flex-center">
+      <div className="view flex-1 flex-center">
         <OnlineUserList />
         <CallNotification />
       </div>

@@ -2,17 +2,26 @@
 
 import { useSocket } from "@/hooks/use-socket";
 import VideoCall from "./VideoCall";
+import { useCallback } from "react";
 
 export default function VideoCallView() {
-  let { localStream, constraints, peer, ongoingCall } = useSocket();
+  let { localStream, isCallEnded, ongoingCall, constraints, peer, handleHangupCall } = useSocket();
 
   const isOnCall = peer && peer.stream ? true: false
 
-  console.log("peer-stream: ", peer?.stream?.getVideoTracks())
-  console.log("local-stream: ", localStream?.getVideoTracks())
+  const handleHangup = useCallback(() => handleHangupCall({
+    ongoingCall,
+    isEmitHangup: true
+  }), [ongoingCall, handleHangupCall])
+
+  if(isCallEnded) {
+    return <div className='mt-5 text-rose-500'>Call Ended</div>
+  }
+
+  if(!localStream && !peer) return;
 
   return (
-    <>
+    <aside className="video-view w-[35%] flex flex-col">
       <div className="video-view user border-x-2 border-solid border-red-600 flex-1">
         {/* The video for the other person */}
         {peer && peer.stream && (
@@ -30,8 +39,9 @@ export default function VideoCallView() {
           isOnCall={isOnCall}
           stream={localStream}
           constraints={constraints}
+          handleHangupCall={handleHangup}
         />
       </div>
-    </>
+    </aside>
   );
 }

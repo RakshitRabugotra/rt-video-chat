@@ -3,9 +3,19 @@
 // Custom hooks
 import { useSocket } from "@/hooks/use-socket";
 import UserAvatar from "@/components/user/UserAvatar";
+import { useCallback } from "react";
 
 export default function CallNotification() {
   const { ongoingCall, handleJoinCall, handleHangupCall } = useSocket();
+
+  const handleHangup = useCallback(
+    () =>
+      handleHangupCall({
+        ongoingCall,
+        isEmitHangup: true,
+      }),
+    [ongoingCall, handleHangupCall]
+  );
 
   if (!ongoingCall?.isRinging) return;
 
@@ -28,13 +38,19 @@ export default function CallNotification() {
           </strong>
         </p>
         <div className="inline-flex-center gap-4">
-          <button className="relative rounded-full text-2xl mb-[18px]" onClick={() => handleJoinCall(ongoingCall)}>
+          <button
+            className="relative rounded-full text-2xl mb-[18px]"
+            onClick={() => handleJoinCall(ongoingCall)}
+          >
             📞
             <span className="absolute text-muted-foreground text-xs inset-0 top-auto translate-y-[150%]">
               Pick
             </span>
           </button>
-          <button className="relative rounded-full text-2xl mb-[18px]" onClick={() => handleHangupCall(ongoingCall)}>
+          <button
+            className="relative rounded-full text-2xl mb-[18px]"
+            onClick={() => handleHangup()}
+          >
             ❌
             <span className="absolute text-muted-foreground text-xs inset-0 top-auto translate-y-[150%]">
               Ignore

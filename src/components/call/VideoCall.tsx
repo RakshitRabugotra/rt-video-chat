@@ -24,6 +24,7 @@ export interface VideoCallProps extends VideoCallStyleProps {
   constraints: MediaStreamConstraints;
   isOnCall: boolean;
   isLocalStream?: boolean;
+  handleHangupCall?: () => void
 }
 
 export default function VideoCall({
@@ -32,6 +33,7 @@ export default function VideoCall({
   className,
   classNames,
   isLocalStream = false,
+  handleHangupCall = undefined,
 }: VideoCallProps) {
   const webcamVideo = useRef<HTMLVideoElement | null>(null);
 
@@ -97,6 +99,7 @@ export default function VideoCall({
           classNames={classNames}
           constraints={constraints}
           stream={stream}
+          handleHangupCall={handleHangupCall}
         />
       </div>
     </div>
@@ -108,6 +111,7 @@ interface VideoControlsProps extends VideoCallStyleProps {
   isStreaming: boolean;
   constraints: VideoCallProps["constraints"];
   stream: VideoCallProps["stream"];
+  handleHangupCall?: VideoCallProps['handleHangupCall']
 }
 
 const VideoControls = ({
@@ -116,6 +120,7 @@ const VideoControls = ({
   classNames,
   constraints,
   stream,
+  handleHangupCall=undefined
 }: VideoControlsProps) => {
   // To keep the state of the stream audio and video
   const [isVideo, setVideo] = useState(Boolean(constraints.video));
@@ -137,7 +142,9 @@ const VideoControls = ({
   }, [stream, isAudio]);
 
   // To stop the video stream/call
-  const stopStream = () => {};
+  const stopStream = () => {
+    if(handleHangupCall) handleHangupCall()
+  };
 
   if (!isLocalStream) return null;
 
