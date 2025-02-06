@@ -40,26 +40,6 @@ export default function VideoCall({
   // To keep track if we're streaming
   const isStreaming = useMemo(() => stream !== null, [stream]);
 
-  // The constraints on the video of the stream
-  const dimensions = useMemo(() => {
-    if(!stream) return undefined;
-    // Get the video tracks
-    const vidTracks = stream?.getVideoTracks()
-    // Get the first track
-    if(vidTracks.length === 0) return undefined;
-    const constraints = vidTracks[0].getConstraints();
-    // Destructure and convert to numbers
-    let {
-      width,
-      height
-    } = constraints
-    // If the dimensions aren't defined do do anything
-    if(width && height) return undefined;
-    // Try to cast to number, else, return undefined
-    if(isNaN(Number(width)) || isNaN(Number(height)) ) return undefined;
-    return {width: Number(width), height: Number(height)}
-  }, [stream])
-
   useEffect(() => {
     if (stream && webcamVideo.current) {
       // The stream is not null, then set the video source
@@ -90,8 +70,6 @@ export default function VideoCall({
             "rounded-3xl overflow-hidden border-2 border-solid border-foreground size-full",
             classNames?.video
           )}
-          // width={dimensions?.width}
-          // height={dimensions?.height}
         ></video>
         <VideoControls
           isLocalStream={isLocalStream}
@@ -139,7 +117,7 @@ const VideoControls = ({
       stream.getVideoTracks().forEach(track => track && (track.enabled = !isVideo));
       setVideo((prev) => !prev);
     }
-  }, [stream, isAudio]);
+  }, [stream, isVideo]);
 
   // To stop the video stream/call
   const stopStream = () => {

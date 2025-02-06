@@ -5,8 +5,9 @@ import VideoCall from "./VideoCall";
 import { useCallback } from "react";
 
 export default function VideoCallView() {
-  let { localStream, isCallEnded, ongoingCall, constraints, peer, handleHangupCall } = useSocket();
-
+  const { localStream, isCallEnded, ongoingCall, constraints, peer, handleHangupCall } = useSocket();
+  
+  // Check if we're still on the call
   const isOnCall = peer && peer.stream ? true: false
 
   const handleHangup = useCallback(() => handleHangupCall({

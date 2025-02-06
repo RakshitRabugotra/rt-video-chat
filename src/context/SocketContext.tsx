@@ -98,12 +98,12 @@ export const SocketContextProvider = ({ children }: PropsWithChildren) => {
           },
         });
         // Set the local stream
-        setLocalStream((prev) => stream);
+        setLocalStream(stream);
         return stream;
       } catch (error) {
-        console.error("Error while getting the user's media stream");
+        console.error("Error while getting the user's media stream", error);
         // Set the local stream
-        setLocalStream((prev) => null);
+        setLocalStream(null);
         return null;
       }
     },
@@ -169,7 +169,7 @@ export const SocketContextProvider = ({ children }: PropsWithChildren) => {
       // If there was some error
       peer.on("error", console.error);
       // If the user disconnects/closes the call
-      peer.on("close", () => handleHangupCall({} as any));
+      peer.on("close", () => handleHangupCall({ ongoingCall, isEmitHangup: true }));
 
       // Open a RTC Connection
       const rtcPeerConnection: RTCPeerConnection | undefined = (peer as any)
@@ -233,10 +233,10 @@ export const SocketContextProvider = ({ children }: PropsWithChildren) => {
    */
   const onIncomingCall = useCallback(
     (participants: Participants) => {
-      setOngoingCall((prev) => ({
+      setOngoingCall({
         participants,
         isRinging: true,
-      }));
+      });
     },
     [socket, user, ongoingCall]
   );

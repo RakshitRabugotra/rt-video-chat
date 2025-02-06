@@ -38,7 +38,7 @@ export default function OnlineUserList() {
                 />
               ))
             : Array.from({ length: 3 }).map((_, index) => (
-                <Skeleton className="size-44 rounded-full no-select" />
+                <Skeleton className="size-44 rounded-full no-select" key={index}/>
               ))}
         </>
       )}
